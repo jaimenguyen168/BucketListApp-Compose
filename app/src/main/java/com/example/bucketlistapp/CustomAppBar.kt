@@ -15,7 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AppBar(
+fun CustomAppBar(
     title: String,
     onBackNavClicked: () -> Unit = {} // Do nothing by default
 ) {

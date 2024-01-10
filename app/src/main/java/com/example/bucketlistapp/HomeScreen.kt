@@ -15,12 +15,20 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            AppBar(title = "Bucket List") {
+            CustomAppBar(title = "Bucket List") {
                 Toast.makeText(context, "Button Clicked", Toast.LENGTH_SHORT).show()
+            }
+        },
+
+        floatingActionButton = {
+            CustomFloatingActionButton() {
+                Toast.makeText(context, "Floating Button Clicked", Toast.LENGTH_SHORT).show()
             }
         }
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(it)) {
+        LazyColumn(modifier = Modifier
+            .fillMaxSize()
+            .padding(it)) {
 
         }
     }
