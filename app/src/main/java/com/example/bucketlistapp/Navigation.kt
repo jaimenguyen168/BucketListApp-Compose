@@ -12,6 +12,8 @@ fun Navigation(
     viewModel: BucketListViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
+
+
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(Screen.HomeScreen.route) {
             HomeScreen(
