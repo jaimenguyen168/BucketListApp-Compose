@@ -30,7 +30,10 @@ fun AddEditScreen(
     Scaffold (
         topBar = { 
             CustomAppBar(
-                title = action
+                title = action,
+                onBackNavClicked = {
+                    navController.navigateUp() // Help to popBackStack
+                }
             )
         }
     ) {
@@ -72,6 +75,7 @@ fun AddEditScreen(
                 } else {
                     // TODO Add
                 }
+                navController.navigateUp()
             }) {
                 Text(
                     text = action,

@@ -14,7 +14,17 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
         composable(Screen.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(
+                viewModel = viewModel,
+                navController = navController
+            )
+        }
+        composable(Screen.AddEditItemScreen.route) {
+            AddEditScreen(
+                id = 0L,
+                viewModel = viewModel,
+                navController = navController
+            )
         }
     }
 }
