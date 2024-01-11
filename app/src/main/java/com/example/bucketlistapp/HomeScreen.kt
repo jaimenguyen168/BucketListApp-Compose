@@ -7,11 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.example.bucketlistapp.data.DummyBucket
 
 @Composable
 fun HomeScreen(
@@ -30,19 +30,20 @@ fun HomeScreen(
 
         floatingActionButton = {
             CustomFloatingActionButton {
-                Toast.makeText(context, "Floating Button Clicked", Toast.LENGTH_SHORT).show()
                 navController.navigate(Screen.AddEditItemScreen.route)
             }
         }
     ) {
+        val bucketList = viewModel.getAllItems.collectAsState(initial = listOf())
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(it)
         ) {
-            items(DummyBucket.bucketList) {
-                BucketListItem(item = it) {
-                    viewModel.onTitleChanged(it.title)
-                    viewModel.onDescriptionChanged(it.description)
+            items(bucketList.value) {item ->
+                BucketListItemView(item = item) {
+                    viewModel.selectedId(item.id)
+//                    viewModel.onTitleChanged(it.title)
+//                    viewModel.onDescriptionChanged(it.description)
                     navController.navigate(Screen.AddEditItemScreen.route)
                 }
             }

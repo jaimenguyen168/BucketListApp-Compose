@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.bucketlistapp.data.BucketLister
 
 @Composable
-fun BucketListItem(
+fun BucketListItemView(
     item: BucketLister,
     onClick : () -> Unit
 ) {

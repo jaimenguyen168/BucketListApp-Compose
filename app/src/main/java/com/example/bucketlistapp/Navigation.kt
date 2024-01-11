@@ -23,7 +23,6 @@ fun Navigation(
         }
         composable(Screen.AddEditItemScreen.route) {
             AddEditScreen(
-                id = 0L,
                 viewModel = viewModel,
                 navController = navController
             )

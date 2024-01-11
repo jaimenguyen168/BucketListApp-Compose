@@ -1,6 +1,10 @@
 package com.example.bucketlistapp
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.Recomposer
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -52,5 +56,12 @@ class BucketListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             bucketListRepo.deleteAnItem(item)
         }
+    }
+
+    private val _bucketListIdSelected = mutableLongStateOf(0L)
+    val bucketListIdSelected : MutableState<Long> = _bucketListIdSelected
+
+    fun selectedId(id: Long) {
+        _bucketListIdSelected.longValue = id
     }
 }

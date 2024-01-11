@@ -15,6 +15,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -33,13 +34,22 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditScreen(
-    id: Long,
     viewModel: BucketListViewModel,
     navController: NavController
 ) {
-    val action =
-        if (id != 0L) stringResource(id = R.string.update_bucket)
-        else stringResource(id = R.string.add_bucket)
+    val id = viewModel.bucketListIdSelected.value
+    var action = ""
+
+    if (id != 0L) {
+        action = stringResource(id = R.string.update_bucket)
+        val item = viewModel.getItemById(id).collectAsState(initial = BucketLister(0L, "", ""))
+        viewModel.bucketListTitleState = item.value.title
+        viewModel.bucketListDescState = item.value.description
+    } else {
+        action = stringResource(id = R.string.add_bucket)
+        viewModel.bucketListTitleState = ""
+        viewModel.bucketListDescState = ""
+    }
 
     val controller = LocalSoftwareKeyboardController.current
 
@@ -111,6 +121,7 @@ fun AddEditScreen(
                                         description = viewModel.bucketListDescState.trim()
                                     )
                                 )
+                                viewModel.selectedId(0L)
                                 snackMessage.value = "New goal added in your Bucket List"
                             }
                         }
@@ -120,7 +131,7 @@ fun AddEditScreen(
                     controller?.hide()
                     scope.launch {
                         // Cant be omitted to make the app feel faster
-                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+//                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
                         navController.navigateUp()
                     }
                 }
