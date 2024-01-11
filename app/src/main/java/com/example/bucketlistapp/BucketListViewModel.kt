@@ -7,12 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bucketlistapp.data.BucketListRepository
 import com.example.bucketlistapp.data.BucketLister
+import com.example.bucketlistapp.data.Graph
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class BucketListViewModel(
-    private val bucketListRepo: BucketListRepository
+    private val bucketListRepo: BucketListRepository = Graph.bucketListRepo // by default
 ) : ViewModel() {
 
     var bucketListTitleState by mutableStateOf("")

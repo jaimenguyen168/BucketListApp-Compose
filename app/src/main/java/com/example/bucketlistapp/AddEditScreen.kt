@@ -1,22 +1,35 @@
 package com.example.bucketlistapp
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.Button
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.bucketlistapp.data.BucketLister
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddEditScreen(
@@ -24,8 +37,15 @@ fun AddEditScreen(
     viewModel: BucketListViewModel,
     navController: NavController
 ) {
+    val action =
+        if (id != 0L) stringResource(id = R.string.update_bucket)
+        else stringResource(id = R.string.add_bucket)
 
-    val action = if (id != 0L) stringResource(id = R.string.update_bucket) else stringResource(id = R.string.add_bucket)
+    val controller = LocalSoftwareKeyboardController.current
+
+    val snackMessage = remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState()
 
     Scaffold (
         topBar = { 
@@ -35,7 +55,8 @@ fun AddEditScreen(
                     navController.navigateUp() // Help to popBackStack
                 }
             )
-        }
+        },
+        scaffoldState = scaffoldState
     ) {
         Column(
             modifier = Modifier
@@ -68,15 +89,42 @@ fun AddEditScreen(
                 modifier = Modifier.height(10.dp)
             )
 
-            Button(onClick = {
-                if (viewModel.bucketListTitleState.isNotEmpty()
-                    && viewModel.bucketListDescState.isNotEmpty()) {
-                    // TODO Update
-                } else {
-                    // TODO Add
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp),
+                shape = RoundedCornerShape(5.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                onClick = {
+                    if (viewModel.bucketListTitleState.isNotEmpty()
+                        && viewModel.bucketListDescState.isNotEmpty()) {
+                        // TODO Add
+                        // TODO Update
+                        when (id) {
+                            0L -> {
+                                viewModel.add(
+                                    BucketLister(
+                                        title = viewModel.bucketListTitleState.trim(),
+                                        description = viewModel.bucketListDescState.trim()
+                                    )
+                                )
+                                snackMessage.value = "New goal added in your Bucket List"
+                            }
+                        }
+                    } else {
+                        snackMessage.value = "Enter fields to create a new item in your Bucket List"
+                    }
+                    controller?.hide()
+                    scope.launch {
+                        // Cant be omitted to make the app feel faster
+                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+                        navController.navigateUp()
+                    }
                 }
-                navController.navigateUp()
-            }) {
+            ) {
                 Text(
                     text = action,
                     style = TextStyle(
