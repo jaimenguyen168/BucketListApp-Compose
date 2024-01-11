@@ -3,6 +3,7 @@ package com.example.bucketlistapp.data
 import android.content.Context
 import androidx.room.Room
 
+// Need to be initialized globally
 object Graph {
     private lateinit var database: BucketListDatabase
 
