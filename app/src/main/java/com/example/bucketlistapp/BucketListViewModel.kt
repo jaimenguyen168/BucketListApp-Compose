@@ -26,7 +26,7 @@ class BucketListViewModel(
         bucketListDescState = newDescription
     }
 
-    private lateinit var getAllItems : Flow<List<BucketLister>>
+    lateinit var getAllItems : Flow<List<BucketLister>>
     init {
         viewModelScope.launch {
             getAllItems = bucketListRepo.getAllItems()

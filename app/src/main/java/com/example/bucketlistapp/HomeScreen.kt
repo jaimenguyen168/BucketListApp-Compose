@@ -19,6 +19,7 @@ fun HomeScreen(
     viewModel: BucketListViewModel
 ) {
     val context = LocalContext.current
+    val allItems = viewModel.getAllItems
 
     Scaffold(
         topBar = {
