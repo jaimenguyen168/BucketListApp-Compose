@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -20,7 +21,7 @@ fun CustomAppBar(
     onBackNavClicked: () -> Unit = {} // Do nothing by default
 ) {
     val navigationIcon : (@Composable () -> Unit)? =
-        if (!title.contains("Bucket List")) {
+        if (!title.contains(stringResource(id = R.string.bucket_list))) {
             {
                 IconButton(
                     onClick = { onBackNavClicked() }

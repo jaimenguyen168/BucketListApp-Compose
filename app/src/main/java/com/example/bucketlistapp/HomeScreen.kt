@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.example.bucketlistapp.data.DummyBucket
 
 @Composable
@@ -17,7 +18,7 @@ fun HomeScreen() {
 
     Scaffold(
         topBar = {
-            CustomAppBar(title = "Bucket List") {
+            CustomAppBar(title = stringResource(id = R.string.bucket_list)) {
                 Toast.makeText(context, "Button Clicked", Toast.LENGTH_SHORT).show()
             }
         },
