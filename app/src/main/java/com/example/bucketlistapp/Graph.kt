@@ -1,14 +1,16 @@
-package com.example.bucketlistapp.data
+package com.example.bucketlistapp
 
 import android.content.Context
 import androidx.room.Room
+import com.example.bucketlistapp.data.BucketListDatabase
+import com.example.bucketlistapp.data.BucketRepository
 
 // Need to be initialized globally
 object Graph {
     private lateinit var database: BucketListDatabase
 
-    val bucketListRepo by lazy {
-        BucketListRepository(bucketListDAO = database.bucketListDAO())
+    val bucketRepo by lazy {
+        BucketRepository(bucketListDAO = database.bucketListDAO())
     }
 
     fun provide(context: Context) {

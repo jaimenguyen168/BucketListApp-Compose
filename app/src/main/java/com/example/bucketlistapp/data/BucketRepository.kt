@@ -2,7 +2,7 @@ package com.example.bucketlistapp.data
 
 import kotlinx.coroutines.flow.Flow
 
-class BucketListRepository(private val bucketListDAO: BucketListDAO) {
+class BucketRepository(private val bucketListDAO: BucketListDAO) {
 
     suspend fun addAnItem(item: BucketLister) {
         bucketListDAO.addAnItem(item)

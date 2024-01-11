@@ -1,6 +1,5 @@
 package com.example.bucketlistapp
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +21,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -62,6 +60,7 @@ fun AddEditScreen(
             CustomAppBar(
                 title = action,
                 onBackNavClicked = {
+                    viewModel.selectedId(0L)
                     navController.navigateUp() // Help to popBackStack
                 }
             )
@@ -82,16 +81,16 @@ fun AddEditScreen(
             AddEditView(
                 label = "Title",
                 value = viewModel.bucketListTitleState,
-                onValueChanged = {
-                    viewModel.onTitleChanged(it)
+                onValueChanged = {newStr ->
+                    viewModel.onTitleChanged(newStr)
                 }
             )
 
             AddEditView(
                 label = "Description",
                 value = viewModel.bucketListDescState,
-                onValueChanged = {
-                    viewModel.onDescriptionChanged(it)
+                onValueChanged = {newStr ->
+                    viewModel.onDescriptionChanged(newStr)
                 }
             )
 
@@ -140,7 +139,7 @@ fun AddEditScreen(
                     controller?.hide()
                     scope.launch {
                         // Cant be omitted to make the app feel faster
-                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+//                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
                         navController.navigateUp()
                         viewModel.selectedId(0L)
                     }

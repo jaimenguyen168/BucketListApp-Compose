@@ -1,23 +1,20 @@
 package com.example.bucketlistapp
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.Recomposer
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bucketlistapp.data.BucketListRepository
 import com.example.bucketlistapp.data.BucketLister
-import com.example.bucketlistapp.data.Graph
+import com.example.bucketlistapp.data.BucketRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class BucketListViewModel(
-    private val bucketListRepo: BucketListRepository = Graph.bucketListRepo // by default
+    private val bucketListRepo: BucketRepository = Graph.bucketRepo // by default
 ) : ViewModel() {
 
     var bucketListTitleState by mutableStateOf("")
@@ -31,10 +28,10 @@ class BucketListViewModel(
         bucketListDescState = newDescription
     }
 
-    lateinit var getAllItems : Flow<List<BucketLister>>
+    lateinit var getAll : Flow<List<BucketLister>>
     init {
         viewModelScope.launch {
-            getAllItems = bucketListRepo.getAllItems()
+            getAll = bucketListRepo.getAllItems()
         }
     }
 
@@ -52,9 +49,10 @@ class BucketListViewModel(
         }
     }
 
-    fun delete(item: BucketLister) {
+    fun delete(item: BucketLister){
         viewModelScope.launch(Dispatchers.IO) {
             bucketListRepo.deleteAnItem(item)
+            getAll = bucketListRepo.getAllItems()
         }
     }
 

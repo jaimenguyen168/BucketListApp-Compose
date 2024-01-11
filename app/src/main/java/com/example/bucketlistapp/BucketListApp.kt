@@ -1,7 +1,6 @@
 package com.example.bucketlistapp
 
 import android.app.Application
-import com.example.bucketlistapp.data.Graph
 
 // Need to be registered in Manifest
 class BucketListApp : Application() {
