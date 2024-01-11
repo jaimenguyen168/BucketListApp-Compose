@@ -38,7 +38,7 @@ fun AddEditScreen(
     navController: NavController
 ) {
     val id = viewModel.bucketListIdSelected.value
-    var action = ""
+    val action: String
 
     if (id != 0L) {
         action = stringResource(id = R.string.update_bucket)
@@ -121,8 +121,17 @@ fun AddEditScreen(
                                         description = viewModel.bucketListDescState.trim()
                                     )
                                 )
-                                viewModel.selectedId(0L)
                                 snackMessage.value = "New goal added in your Bucket List"
+                            }
+                            else -> {
+                                viewModel.update(
+                                    BucketLister(
+                                        id = id,
+                                        title = viewModel.bucketListTitleState.trim(),
+                                        description = viewModel.bucketListDescState.trim()
+                                    )
+                                )
+                                snackMessage.value = "Bucket List goal has been updated"
                             }
                         }
                     } else {
@@ -131,9 +140,11 @@ fun AddEditScreen(
                     controller?.hide()
                     scope.launch {
                         // Cant be omitted to make the app feel faster
-//                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
+                        scaffoldState.snackbarHostState.showSnackbar(snackMessage.value)
                         navController.navigateUp()
+                        viewModel.selectedId(0L)
                     }
+
                 }
             ) {
                 Text(

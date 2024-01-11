@@ -42,8 +42,6 @@ fun HomeScreen(
             items(bucketList.value) {item ->
                 BucketListItemView(item = item) {
                     viewModel.selectedId(item.id)
-//                    viewModel.onTitleChanged(it.title)
-//                    viewModel.onDescriptionChanged(it.description)
                     navController.navigate(Screen.AddEditItemScreen.route)
                 }
             }
